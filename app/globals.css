@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+:root {
+  --background: #F5F5F5;
+  --foreground: #ededed;
+}
+
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #F5F5F5;
+    --foreground: #ededed;
+  }
+}
+
+.list-image-check {
+  list-style-image: url('../public/dashboard/list-dot.png'); /* path to your image */
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+.cl-internal-xywyrm{
+  width: 37rem;
+}
+.cl-card {
+  width: 37rem !important; 
+  max-width: 100% !important; 
+  padding: 30px !important;
+}
+.cl-headerTitle {
+  font-size: 40px !important; 
+  font-weight: 700 !important; 
+  text-align: center !important;
+  font-family: arial !important;
+}
+.cl-headerSubtitle {
+  font-size: 14px !important; 
+  font-weight: 500 !important;
+  color: #6b7280 !important; 
+}

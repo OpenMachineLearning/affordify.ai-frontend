@@ -10,7 +10,7 @@ export default function StepperSidebar({
   currentStep,
 }: StepperSidebarProps) {
   return (
-    <div className="flex flex-col items-start absolute left-[-40%]">
+    <div className="flex flex-col items-start absolute left-[-33%]">
       {steps.map((step, index) => {
         const isCompleted = step.id < currentStep;
         const isActive = step.id === currentStep;

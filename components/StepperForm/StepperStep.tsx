@@ -10,8 +10,6 @@ interface StepperStepProps {
   prevStep: () => void;
   handleBankConnect: () => void;
   connectedBanks: { name: string; icon: string | null }[];
-  selectedGoal: string;
-  setSelectedGoal: (goal: string) => void;
 }
 
 interface GoalData {

@@ -55,7 +55,7 @@ export default function RootLayout({
             <Toaster position="top-right" />
             <NavBar />
             <QueryProvider>
-              <div className="flex h-[92%]">
+              <div className="flex h-fit">
                 <main className="flex justify-center items-center w-[100%]  min-h-[830px] ">
                   {children}
                 </main>

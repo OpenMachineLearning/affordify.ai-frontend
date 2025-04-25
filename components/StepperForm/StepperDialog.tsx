@@ -39,14 +39,14 @@ export default function StepperDialog({
     <>
       {/* Automatic Connection Dialog */}
       {authorizationCode && closeDialog && (
-        <div className="fixed inset-0 bg-[#2a2a337a] bg-opacity-50 flex items-center justify-center">
+        <div className="fixed inset-0 bg-[#2a2a337a] flex items-center justify-center">
           <div
             ref={dialogRef}
             className="modal-content bg-white p-0 rounded-lg shadow-lg w-[550px]"
           >
             <iframe
               src={`https://link.visa.com/1.0/transactions/connect-accounts?client_id=${clientId}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&authorization_code=${authorizationCode}&market=US`}
-              className="w-full h-[600px]"
+              className="w-full h-[600px] rounded-lg"
             ></iframe>
           </div>
         </div>

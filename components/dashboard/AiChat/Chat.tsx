@@ -50,7 +50,7 @@ export default function Chat() {
   };
 
   return (
-    <div className="flex min-h-full space-x-3   ">
+    <div className="flex h-[830px] min-h-full space-x-3   ">
       {/* Sidebar */}
       <div className="w-64  flex flex-col rounded-xl bg-white">
         <div className="flex items-center justify-between px-4 py-4">

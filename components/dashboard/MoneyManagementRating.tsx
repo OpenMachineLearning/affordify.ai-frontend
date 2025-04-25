@@ -71,7 +71,7 @@ export default function MoneyManagementRating({ value, max = 100 }: Props) {
   );
 
   return (
-    <div className="flex flex-col w-[48%] bg-white rounded-xl p-6 text-center shadow min-w-[343.92px]">
+    <div className="flex flex-col w-[450px] bg-white rounded-xl p-6 text-center shadow min-w-[343.92px]">
       {/* Heading */}
       <h2 className="text-[24px] text-[#2A2A33]  mb-2">
         Money Management Rating

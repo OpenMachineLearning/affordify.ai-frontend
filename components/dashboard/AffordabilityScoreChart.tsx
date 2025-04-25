@@ -18,7 +18,7 @@ const tiers = [
 export default function AffordabilityScoreChart({
   score,
 }: AffordabilityScoreChartProps) {
-  const maxWidth = 360;
+  const maxWidth = 330;
   const activeTier = tiers.find((t) => score >= t.min - 1);
 
   return (
@@ -32,7 +32,7 @@ export default function AffordabilityScoreChart({
           <span className={`w-3 h-3 rounded-full ${activeTier.color}`} />
         )}{" "}
       </div>
-      <p className="text-[15px] text-[#2A2A33] opacity-80 mb-11">
+      <p className="text-[15px] text-[#2A2A33] opacity-80 mb-8">
         Your Affordability Score: <strong>{score}</strong>. This home is well
         within your budget!
       </p>
@@ -70,7 +70,7 @@ export default function AffordabilityScoreChart({
       </div>
 
       {/* CTA */}
-      <a href="#" className="text-[16px] text-[#1976E1] mt-15 inline-block">
+      <a href="#" className="text-[16px] text-[#1976E1] mt-8 inline-block">
         Get Optimization Suggestions
       </a>
     </div>

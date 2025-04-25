@@ -1,5 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { useDemo } from "@/context/DemoProvider";
+
 import { useRouter } from "next/navigation";
 import { useAuth } from "@clerk/nextjs";
 import toast from "react-hot-toast";
@@ -41,6 +43,8 @@ export default function StepperStep({
   const [goalMonths, setGoalMonths] = useState(3);
   const [selectedGoal, setSelectedGoal] = useState("");
   const [selected, setSelected] = useState(false);
+
+  const { isDemo } = useDemo();
 
   const toggleGoal = (id: string, disabled = false) => {
     if (disabled) return;
@@ -538,7 +542,7 @@ export default function StepperStep({
           </div>
           <div className="mt-12">
             <button
-              onClick={handleBankConnect}
+              onClick={!isDemo ? handleBankConnect : nextStep}
               disabled={!allChecked}
               className={`flex items-center justify-center mt-4 px-4 py-2 w-full h-13 rounded-lg font-semibold ${
                 allChecked
@@ -655,8 +659,9 @@ export default function StepperStep({
               Back
             </button>
             <button
-              // onClick={() => router.push("/dashboard")}
-              onClick={handleComplete}
+              onClick={
+                !isDemo ? handleComplete : () => router.push("/dashboard")
+              }
               /*For Demo */
               className="px-10 py-4 bg-[#2286EA] text-white rounded-xl"
             >

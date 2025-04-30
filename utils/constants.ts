@@ -1,7 +1,9 @@
 export const steps = [
-    { id: 1, title: "Basic information" },
-    { id: 2, title: "Bank Account Connection" },
-    { id: 3, title: "View Dashboard" },
+    { id: 1, title: "Set Your Property Goal" },
+    { id: 2, title: "Your Current Stage" },
+    { id: 3, title: "Key Details" },
+    { id: 4, title: "Bank Accounts Connection" },
+    { id: 5, title: "Calculate affordability" },
   ];
 
   export const navItems = [

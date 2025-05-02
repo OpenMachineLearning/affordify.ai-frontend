@@ -49,14 +49,14 @@ export default function RootLayout({
     >
       <html lang="en">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white  h-screen`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white h-[90vh]`}
         >
           <DemoProvider>
             <Toaster position="top-right" />
             <NavBar />
             <QueryProvider>
-              <div className="flex h-fit">
-                <main className="flex justify-center items-center w-[100%]  min-h-[830px] ">
+              <div className="flex h-full">
+                <main className="flex justify-center items-center w-[100%]  h-full  ">
                   {children}
                 </main>
               </div>

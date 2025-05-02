@@ -4,16 +4,19 @@ import { useUser, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { useDemo } from "@/context/DemoProvider";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 export default function NavBar() {
   const { isSignedIn, user } = useUser();
   const router = useRouter();
+  const pathname = usePathname();
   const { isDemo } = useDemo();
 
   const goLive = () => {
     router.push("/sign-up");
   };
+
+  const hideButton = pathname === "/sign-up" || pathname === "/";
 
   return (
     <div className="flex justify-between items-center p-4 h-19 border-b shadow-sm bg-white unset top-0 w-full min-w-[1557px]">
@@ -26,7 +29,7 @@ export default function NavBar() {
       <div className="flex items-center gap-4">
         {isSignedIn ? (
           <UserButton afterSignOutUrl="/" />
-        ) : isDemo ? (
+        ) : isDemo && !hideButton ? (
           <div
             onClick={goLive}
             className="flex justify-center items-center w-[261px] h-[43px] text-white text-[18px] bg-[#1976E1] rounded-xl cursor-pointer"

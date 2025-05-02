@@ -1,24 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Info, CheckCircle, Trash2, X } from "lucide-react";
+import { Trash2, X } from "lucide-react";
 type DialogType = "view" | "add" | "edit" | null;
 
 const goals = [
   {
-    type: "SHORT-TERM GOAL",
-    title: "Vacation (Portugal)",
-    current: 0,
-    total: 2000,
-    months: 3,
-    saved: 0,
-    completed: false,
-    durationType: "months",
-  },
-  {
     type: "LONG-TERM GOAL",
     title: "Home Buying Expense",
-    current: 32200,
+    current: 18200,
     total: 32200,
-    months: null,
+    months: 0,
     saved: 0,
     completed: true,
     durationType: "years",
@@ -71,78 +61,19 @@ const SavingsGoalTracker = () => {
   return (
     <div className="bg-white shadow rounded-2xl p-6 w-full">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-[24px] font-normal text-[#2A2A33]">
-          Savings Goal traker
-        </h2>
-        <div className="flex items-center">
-          <a
-            href="#"
-            className="text-[18px] text-[#1976E1] font-semibold cursor-pointer mr-5"
-          >
-            View all goals
-          </a>
-          <div className="relative" ref={menuRef}>
-            <img
-              src="dashboard/more.png"
-              alt=""
-              className=" cursor-pointer"
-              onClick={() => setShowMenu(!showMenu)}
-            />
-            {showMenu && (
-              <div className="absolute right-0 mt-2 bg-white shadow-lg rounded-md w-64 p-3 z-50">
-                <div
-                  className="flex items-center gap-2 text-[#2A2A33] px-3 py-2 cursor-pointer hover:bg-gray-100"
-                  onClick={() => {
-                    setActiveDialog("view");
-                    setShowMenu(false);
-                  }}
-                >
-                  <img src="/dashboard/list.png" alt="" />{" "}
-                  <span className="text-sm">View All Goals</span>
-                </div>
-                <div
-                  className="flex items-center gap-2 text-[#2A2A33] px-3 py-2 cursor-pointer hover:bg-gray-100"
-                  onClick={() => {
-                    setActiveDialog("add");
-                    setShowMenu(false);
-                  }}
-                >
-                  <img src="/dashboard/plus.png" alt="" />
-                  <span className="text-sm"> Add New Saving Goal</span>
-                </div>
-                <div
-                  className="flex items-center gap-2 text-[#2A2A33] px-3 py-2 cursor-pointer hover:bg-gray-100"
-                  onClick={() => {
-                    setActiveDialog("edit");
-                    setShowMenu(false);
-                  }}
-                >
-                  <img src="/dashboard/edit-sm.png" alt="" />{" "}
-                  <span className="text-sm">Edit Saving Goals</span>
-                </div>
-              </div>
-            )}
+        <h2 className="text-[24px] font-normal text-[#2A2A33] mb-8 w-6/8">
+          Estimated Home Buying <br />
+          <div className="flex items-center">
+            Expenses
+            <img className="ml-2" src="/dashboard/info.png" alt="" />
           </div>
-        </div>
+        </h2>
       </div>
-      <div className="w-full bg-[#D9D9D9] h-[1px] mb-6"></div>
 
       {goals.map((goal, idx) => (
-        <div key={idx} className="mb-10">
-          <p className="text-[10px] font-bold text-gray-400 mb-1">
-            {goal.type}
-          </p>
+        <div key={idx} className="mb-10 mt-10">
           <div className="flex justify-between items-center mb-1">
-            <h3 className="text-[16px] font-normal text-[#2A2A33] flex items-center gap-1">
-              {goal.title}{" "}
-              {goal.type === "LONG-TERM GOAL" && (
-                <Info className="w-4 h-4 text-[#2A2A33]" />
-              )}
-            </h3>
-            <div className="flex items-center gap-1 text-sm font-semibold text-[#2A2A33]">
-              {goal.completed && (
-                <CheckCircle className="w-4 h-4 text-teal-500" />
-              )}
+            <div className="flex items-center gap-1 text-[20px]  text-[#2A2A33] ">
               ${goal.current.toLocaleString()}/${goal.total.toLocaleString()}
             </div>
           </div>
@@ -154,24 +85,17 @@ const SavingsGoalTracker = () => {
               style={{ width: getBarWidth(goal.current, goal.total) }}
             ></div>
           </div>
-          <div className="flex justify-between text-sm text-gray-700">
-            <span>
-              Estimated time to reach goal:{" "}
-              <span className="font-medium">
-                {goal.months ? `${goal.months} months` : "-"}
-              </span>
-            </span>
-            <span>
-              Saved this month:{" "}
-              <span className="font-medium">${goal.saved}</span>
-            </span>
+          <div className="flex justify-start text-sm text-gray-700">
+            <span>Estimated TImeLine To Reach Goal: &nbsp;</span>
+
+            <span className="font-medium"> {goal.months} Months</span>
           </div>
-          <div className="w-full bg-[#D9D9D9] h-[1px] mt-5"></div>
         </div>
       ))}
 
-      <div className="text-[16px] text-[#1976E1] font-medium">
+      <div className="text-[16px] text-[#1976E1] font-normal flex justify-start items-center">
         <a href="#">Want to achieve your goals earlier? Get suggestions</a>
+        <img className="cursor-pointer" src="/dashboard/side-5-1.png" alt="" />
       </div>
 
       {/* Dialog Modal */}
@@ -334,7 +258,7 @@ const SavingsGoalTracker = () => {
                           </strong>
                         </span>
                         <span>
-                          Saved this month: <strong>${goal.saved}</strong>
+                          Saved this month: <strong>{goal.months}</strong>
                         </span>
                       </div>
                       <div className="w-full bg-[#D9D9D9] h-[1px] mt-4"></div>

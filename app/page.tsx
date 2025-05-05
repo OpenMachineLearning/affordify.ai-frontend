@@ -4,7 +4,7 @@ import { SignIn } from "@clerk/nextjs";
 
 export default function SignInPage() {
   return (
-    <div className="grid grid-cols-2 w-full h-full">
+    <div className="grid grid-cols-2 w-full h-[92vh]">
       <div className="flex flex-col items-center justify-center bg-white">
         <img src="logo.svg" alt="" />
         <div className="text-[36px] text-[#2A2A33] font-semibold mt-2">

@@ -1,9 +1,21 @@
 import React from "react";
 import { useState } from "react";
-const PreferencesCard = () => {
+import { useUserGoal } from "@/context/UserGoalProvider";
+
+interface PreferencesCardProps {
+  propertyPrice?: number;
+  zipCode?: string;
+}
+
+const PreferencesCard: React.FC<PreferencesCardProps> = ({
+  propertyPrice,
+  zipCode,
+}) => {
   const [budgetType, setBudgetType] = useState<"total" | "annual" | "monthly">(
     "total"
   );
+
+  const { isOwner, selectedGoal } = useUserGoal();
 
   const estimatedBudgetValue = 0;
   const [isHomePriceDialogOpen, setIsHomePriceDialogOpen] = useState(false);
@@ -14,11 +26,11 @@ const PreferencesCard = () => {
     <div className=" w-full min-w-[450px]   bg-white rounded-lg p-6 shadow-sm ">
       <div className="flex justify-between mb-15 items-center">
         <div className="flex items-center">
-          <h2 className="text-[24px] font-normal text-[#2A2A33] mr-1 ">
+          <h2 className="text-[24px] font-normal text-[#2A2A33] mr-1 mb-0">
             Your Property Preferences{" "}
           </h2>
           <div className="relative inline-block">
-            <div className="group relative inline-block">
+            <div className="group relative  items-center">
               <img
                 src="/dashboard/info.png"
                 alt="Info"
@@ -55,7 +67,9 @@ const PreferencesCard = () => {
                 Modify Your Property Preferences
               </h2>
               <div>
-                Property Price You’re Considering
+                {isOwner
+                  ? "Property Price You’re Considering"
+                  : "Property Monthly Rent Price You’re Considering"}
                 <input
                   type="string"
                   className="w-full border border-[#cecece] rounded-lg p-2 text-black mb-5 h-[48px]"
@@ -105,12 +119,14 @@ const PreferencesCard = () => {
       <div className="bg-white rounded-lg w-full mb-5 ">
         <div className="flex justify-between items-center">
           <p className="text-[16px] text-[#2A2A33] mb-1">
-            Property Monthly Rent Price You’re Considering{" "}
+            {isOwner
+              ? "Property Price You’re Considering"
+              : "Property Monthly Rent Price You’re Considering"}
           </p>
         </div>
         <div className="flex justify-between items-center mt-1">
           <span className=" w-full p-3 text-[18px] text-[#2A2A33]  rounded-lg border border-[#D9D9D9]">
-            ${parseInt("0").toLocaleString() || 0}
+            ${propertyPrice?.toLocaleString() || 0}
           </span>
         </div>
       </div>
@@ -122,7 +138,7 @@ const PreferencesCard = () => {
         </div>
         <div className="flex justify-between items-center mt-1">
           <span className=" w-full p-3 text-[18px] text-[#2A2A33]  rounded-lg border border-[#D9D9D9]">
-            0
+            {zipCode || 0}
           </span>
         </div>
       </div>

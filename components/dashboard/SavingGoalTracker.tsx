@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Trash2, X } from "lucide-react";
+import Tooltip from "../ui/Tooltip";
+
 type DialogType = "view" | "add" | "edit" | null;
 
 const goals = [
@@ -63,9 +65,15 @@ const SavingsGoalTracker = () => {
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-[24px] font-normal text-[#2A2A33] mb-8 w-6/8">
           Estimated Home Buying <br />
-          <div className="flex items-center">
+          <div className="flex items-center ">
             Expenses
-            <img className="ml-2" src="/dashboard/info.png" alt="" />
+            <Tooltip text="Savings for Deposit, Agent Commissions, Closing costs (expenses associated with finalizing a transaction, including document processing fees, legal services, taxes, and other payments)">
+              <img
+                src="/dashboard/info.png"
+                alt="Information"
+                className="cursor-pointer ml-2"
+              />
+            </Tooltip>{" "}
           </div>
         </h2>
       </div>

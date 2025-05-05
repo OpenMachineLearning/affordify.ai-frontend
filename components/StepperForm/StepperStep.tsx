@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@clerk/nextjs";
 import toast from "react-hot-toast";
 import Link from "next/link";
+import { useUserGoal } from "@/context/UserGoalProvider";
 
 interface StepperStepProps {
   currentStep: number;
@@ -25,7 +26,8 @@ export default function StepperStep({
   const [goalName, setGoalName] = useState("");
   const [goalAmount, setGoalAmount] = useState("");
   const [goalMonths, setGoalMonths] = useState(3);
-  const [selectedGoal, setSelectedGoal] = useState("");
+  const { selectedGoal, setSelectedGoal, isOwner } = useUserGoal();
+
   const [selected, setSelected] = useState(false);
   const goals = [
     "I will live here full-time",
@@ -33,14 +35,11 @@ export default function StepperStep({
     "It will be an investment property",
     "I rent (I am a renter)",
   ];
+  const [zipcode, setzipcode] = useState("");
 
   //for step2
 
   const [selectedStage, setSelectedStage] = useState<string | null>(null);
-  const isOwner = [
-    "I will live here full-time",
-    "It will be my second home",
-  ].includes(selectedGoal);
 
   const buyingStages = [
     "I’ve signed a purchase agreement",
@@ -62,7 +61,7 @@ export default function StepperStep({
 
   const toggleGoal = (id: string, disabled = false) => {
     if (disabled) return;
-    setSelectedGoal((prev) => (prev === id ? "" : id));
+    setSelectedGoal(selectedGoal === id ? "" : id);
   };
 
   const isExpanded = (id: string) => selectedGoal === id;
@@ -117,9 +116,10 @@ export default function StepperStep({
     const token = await getToken();
 
     const payload = {
-      homePrice: parseInt(houseCost),
-      bankSaving: parseInt(BankSavings),
-      cashSaving: parseInt(CashSavings),
+      propertyPrice: parseInt(houseCost),
+      zipCode: zipcode,
+      bankSavings: parseInt(BankSavings),
+      investmentSavings: parseInt(CashSavings),
       extraIncome: parseInt(ExtraIncome),
     };
 
@@ -301,9 +301,10 @@ export default function StepperStep({
 
             <div className="mb-6">
               <label className="text-sm block mb-2 text-[#2A2A33]">
-                Property Price You’re Considering
+                {isOwner
+                  ? "Property Price You’re Considering"
+                  : "Property Monthly Rent Price You’re Considering"}
               </label>
-
               <input
                 type="text"
                 className="w-2/4 border border-[#cecece] rounded-lg p-2 text-black"
@@ -319,6 +320,8 @@ export default function StepperStep({
               <input
                 type="text"
                 className="w-2/4 border border-[#cecece] rounded-lg p-2 text-black"
+                value={zipcode}
+                onChange={(e) => setzipcode(e.target.value)}
               />
             </div>
             <div className="w-full h-[1px] bg-[#D9D9D9] mb-6"></div>
@@ -339,6 +342,7 @@ export default function StepperStep({
                 type="text"
                 className="w-2/4 border border-[#cecece] rounded-lg p-2 text-black"
                 value={`$ ${homePurchase}`}
+                readOnly
               />
             </div>
 
@@ -446,10 +450,18 @@ export default function StepperStep({
               Next
             </button>
           </div>
-          <div className="flex flex-col items-start absolute right-[-23%] top-[26px]">
+          <div className="flex flex-col items-start absolute right-[-43%] top-[26px]">
             <h2 className="text-2xl text-[#2A2A33] font-bold mb-3">
               Helpful Hint
             </h2>
+            <p className="text-[#2A2A33] mb-3 font-semibold">
+              {isOwner ? "Home Buying Expenses" : "Home Renting Expenses"}
+            </p>
+            <p className=" text-[#2A2A33] w-70 text-[14px] mb-3">
+              {isOwner
+                ? "Are expenses for Deposit, Agent Commissions, Closing costs (expenses associated with finalizing a transaction, including document processing fees, legal services, taxes, and other payments)"
+                : "Include expenses like security deposits, first and last month's rent, application fees, agent commissions"}
+            </p>
           </div>
         </div>
       )}

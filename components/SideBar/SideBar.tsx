@@ -24,7 +24,7 @@ const Sidebar = () => {
     setIsConnectedAccountsOpen(isConnectedAccountsActive);
   }, [pathname]);
   return (
-    <aside className="w-[300px] h-[110%] border-r bg-white px-6 py-6">
+    <aside className="w-[320px] h-full border-r bg-white px-6 py-6">
       <nav className="flex flex-col space-y-2.5">
         {/* Dashboard Section */}
         <div className="m-0">

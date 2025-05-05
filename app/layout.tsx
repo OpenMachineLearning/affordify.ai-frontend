@@ -14,6 +14,7 @@ import "./globals.css";
 import NavBar from "../components/nav/NavBar";
 import { QueryProvider } from "@/providers/QueryProvider";
 import { DemoProvider } from "@/context/DemoProvider";
+import { UserGoalProvider } from "@/context/UserGoalProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -49,18 +50,20 @@ export default function RootLayout({
     >
       <html lang="en">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white  h-screen`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white h-[90vh]`}
         >
           <DemoProvider>
-            <Toaster position="top-right" />
-            <NavBar />
-            <QueryProvider>
-              <div className="flex h-[92%]">
-                <main className="flex justify-center items-center w-[100%]  min-h-[830px] ">
-                  {children}
-                </main>
-              </div>
-            </QueryProvider>
+            <UserGoalProvider>
+              <Toaster position="top-right" />
+              <NavBar />
+              <QueryProvider>
+                <div className="flex h-fit">
+                  <main className="flex justify-center items-center w-[100%]  max-h-full  ">
+                    {children}
+                  </main>
+                </div>
+              </QueryProvider>
+            </UserGoalProvider>
           </DemoProvider>
         </body>
       </html>

@@ -265,27 +265,32 @@ export default function AffordabilityDashboard() {
             <div className="flex w-full  justify-center space-x-4">
               {/* col 1 */}
               <div className="flex flex-col justify-between gap-4">
-                <PreferencesCard />
+                <PreferencesCard
+                  propertyPrice={data?.propertyPrice}
+                  zipCode={data?.zipCode}
+                />
                 <MoneyManagementRating
                   value={parseInt(data?.affordData?.moneyManagementRating || 0)}
                 />
               </div>
               {/* col 2 */}
               <div className="flex flex-col gap-4 justify-between">
-                <HomeBardgetCard />
+                <HomeBardgetCard
+                  estimatedBudget={data?.affordData?.estimatedBudget}
+                />
 
                 <FinancialInsights />
               </div>
               {/* col */}
               <div className="flex flex-col gap-4 justify-between">
                 <AffordabilityScoreChart
-                  score={parseInt(data?.affordData?.affordabilityScore || 50)}
+                  score={parseInt(data?.affordData?.affordabilityScore || 0)}
                 />
                 <SavingsGoalTracker />
               </div>
             </div>
           </div>
-          <div className="flex items-center justify-center border border-[#1976E1] text-[18px] text-[#1976E1] p-3 rounded-lg">
+          <div className="flex items-center justify-center border border-[#1976E1] text-[18px] text-[#1976E1] p-3 rounded-lg cursor-pointer">
             Click here and get more details
           </div>
           <p className="text-[14px] text-[#2A2A33]">

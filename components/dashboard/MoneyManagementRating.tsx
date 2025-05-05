@@ -74,9 +74,9 @@ export default function MoneyManagementRating({ value, max = 100 }: Props) {
   return (
     <div className="flex flex-col w-full  bg-white rounded-xl p-6 text-center shadow min-w-[520px] h-full">
       {/* Heading */}
-      <div className="flex items-center">
+      <div className="flex items-center mb-2">
         {" "}
-        <h2 className="text-[24px] text-[#2A2A33]  mb-2 mr-2">
+        <h2 className="text-[24px] text-[#2A2A33] mr-2">
           Money Management Rating
         </h2>
         <Tooltip text="This score shows how effectively you manage your finances and how quickly you can reach your savings goals. Improving it can help you save faster and achieve financial milestones.">

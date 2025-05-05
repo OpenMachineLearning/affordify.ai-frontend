@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
-import { useAuth } from "@clerk/nextjs";
+import { useAuth, useUser } from "@clerk/nextjs";
 import toast from "react-hot-toast";
 
 export default function AffordabilityLoading() {
+  const { user } = useUser();
   const [progress, setProgress] = useState(0);
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -68,7 +69,7 @@ export default function AffordabilityLoading() {
   }, [progress, router]);
 
   return (
-    <div className="h-full w-full flex flex-col items-center justify-start bg-white px-4">
+    <div className="h-[91vh] w-full flex flex-col items-center justify-start bg-white px-4">
       <div className="w-[40%] text-center flex flex-col items-center justify-center">
         <Image
           src="/affordability_loading.gif"
@@ -77,11 +78,12 @@ export default function AffordabilityLoading() {
           height={450}
           className="mx-auto"
         />
-        <h1 className="text-[54px] font-bold text-[#2A2A33] mb-8">
+        <h1 className="text-[40px] font-bold text-[#2A2A33] mb-8">
           Calculating Your Affordability
         </h1>
-        <div className="w-full text-[24px] text-[#2A2A33] mb-15">
-          Jone Doe, we’re analyzing your affordability based on your linked
+        <div className="w-full text-[16px] text-[#2A2A33] mb-15">
+          {user?.fullName}, we’re analyzing your affordability based on your
+          linked
           <br />
           accounts. This will only take a moment
         </div>

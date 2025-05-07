@@ -7,9 +7,12 @@ import StepperDialog from "./StepperDialog";
 import { useBankConnection } from "../../hooks/useBankConnection";
 import { steps } from "../../utils/constants";
 import { useUser, useAuth } from "@clerk/nextjs";
+import { useSearchParams } from "next/navigation";
 
 export default function StepperForm() {
-  const [currentStep, setCurrentStep] = useState(1);
+  const searchParams = useSearchParams();
+  const initialStep = parseInt(searchParams.get("step") || "1");
+  const [currentStep, setCurrentStep] = useState(initialStep);
   const [connectedBanks, setConnectedBanks] = useState<
     { name: string; icon: string | null }[]
   >([]);

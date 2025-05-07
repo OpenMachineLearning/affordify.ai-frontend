@@ -7,7 +7,11 @@ import { navItems } from "@/utils/constants";
 import classNames from "classnames";
 import { useRouter } from "next/navigation";
 
-const Sidebar = () => {
+interface SidebarProps {
+  onOpenPricingDialog: () => void;
+}
+
+const Sidebar = ({ onOpenPricingDialog }: SidebarProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const [isDashboardOpen, setIsDashboardOpen] = useState(true);
@@ -157,7 +161,10 @@ const Sidebar = () => {
           })}
         </nav>
       </div>
-      <div className="flex items-center text-[#2A2A33] text-[16px] gap-2">
+      <div
+        className="flex items-center text-[#2A2A33] text-[16px] gap-2 cursor-pointer"
+        onClick={onOpenPricingDialog}
+      >
         <button>
           <img src="/dashboard/crosshair.png" alt="" />
         </button>

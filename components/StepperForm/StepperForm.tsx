@@ -8,6 +8,7 @@ import { useBankConnection } from "../../hooks/useBankConnection";
 import { steps } from "../../utils/constants";
 import { useUser, useAuth } from "@clerk/nextjs";
 import { useSearchParams } from "next/navigation";
+import { useUserGoal } from "@/context/UserGoalProvider";
 
 export default function StepperForm() {
   const searchParams = useSearchParams();
@@ -16,6 +17,7 @@ export default function StepperForm() {
   const [connectedBanks, setConnectedBanks] = useState<
     { name: string; icon: string | null }[]
   >([]);
+  const { selectedGoal } = useUserGoal();
 
   const { getToken } = useAuth();
   const {
@@ -37,6 +39,13 @@ export default function StepperForm() {
       setCurrentStep((prev) => prev - 1);
     }
   };
+
+  // Reset step to 1 if no goal is selected
+  useEffect(() => {
+    if (!selectedGoal && currentStep > 1) {
+      setCurrentStep(1);
+    }
+  }, [selectedGoal, currentStep]);
 
   useEffect(() => {
     const handleVisaMessage = async (event: MessageEvent) => {

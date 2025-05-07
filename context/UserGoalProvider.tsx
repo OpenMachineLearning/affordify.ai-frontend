@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
 
 type UserGoalContextType = {
   selectedGoal: string;
@@ -15,6 +15,19 @@ const UserGoalContext = createContext<UserGoalContextType | undefined>(
 export const UserGoalProvider = ({ children }: { children: ReactNode }) => {
   const [selectedGoal, setSelectedGoal] = useState("");
 
+  useEffect(() => {
+    // Load the goal from localStorage on initial mount
+    const savedGoal = localStorage.getItem("user_goal");
+    if (savedGoal) {
+      setSelectedGoal(savedGoal);
+    }
+  }, []);
+
+  const handleSetSelectedGoal = (goal: string) => {
+    setSelectedGoal(goal);
+    localStorage.setItem("user_goal", goal);
+  };
+
   const isOwner = [
     "I will live here full-time",
     "It will be my second home",
@@ -22,7 +35,7 @@ export const UserGoalProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <UserGoalContext.Provider
-      value={{ selectedGoal, setSelectedGoal, isOwner }}
+      value={{ selectedGoal, setSelectedGoal: handleSetSelectedGoal, isOwner }}
     >
       {children}
     </UserGoalContext.Provider>

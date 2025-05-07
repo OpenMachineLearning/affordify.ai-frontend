@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { MoreVertical, Download, Trash } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function MyAccount() {
+  const router = useRouter();
   const [dropdownOpenIndex, setDropdownOpenIndex] = useState<number | null>(
     null
   );
@@ -45,7 +47,10 @@ export default function MyAccount() {
             <button className="flex items-center gap-2 px-4 py-2 border rounded-lg text-[#1976E1] text-[16px] border-[#1976E1] cursor-pointer w-[203px] h-[45px] font-semibold">
               <img src="/dashboard/download.png" alt="" /> Download as CSV
             </button>
-            <button className="flex items-center gap-2 px-4 py-2 border rounded-lg text-[#1976E1] text-[16px] border-[#1976E1] cursor-pointer  w-[250px] h-[45px] font-semibold">
+            <button 
+              onClick={() => router.push('/onboarding?step=4')}
+              className="flex items-center gap-2 px-4 py-2 border rounded-lg text-[#1976E1] text-[16px] border-[#1976E1] cursor-pointer  w-[250px] h-[45px] font-semibold"
+            >
               <img src="/dashboard/plus.svg" alt="" /> Add New Bank Account
             </button>
           </div>
@@ -83,17 +88,17 @@ export default function MyAccount() {
                     onClick={() =>
                       setDropdownOpenIndex(dropdownOpenIndex === i ? null : i)
                     }
-                    className="relative z-10"
+                    className="relative z-10 cursor-pointer"
                   >
                     <MoreVertical size={18} />
                   </button>
                   {dropdownOpenIndex === i && (
-                    <div className="absolute right-15 mt-2 w-[283px] h-[80px] bg-white rounded-lg shadow-lg z-20 ">
-                      <button className="flex items-center gap-2 px-2 py-2  w-full text-left ">
+                    <div className="absolute right-15 mt-2 w-[283px] h-[95px] bg-white rounded-lg shadow-lg z-20 ">
+                      <button className="flex items-center gap-2 px-2 py-2  w-full text-left cursor-pointer ">
                         <img src="/dashboard/download.png" alt="" /> Download
                         Bank Statements As CSV
                       </button>
-                      <button className="flex items-center gap-2 px-2 py-2  text-red-600 w-full text-left">
+                      <button className="flex items-center gap-2 px-2 py-2  text-red-600 w-full text-left cursor-pointer">
                         <img src="/dashboard/trash.png" alt="" /> Remove Bank
                         Account
                       </button>

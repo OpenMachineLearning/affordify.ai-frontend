@@ -49,6 +49,19 @@ export default function AffordabilityDashboard() {
     },
   });
 
+  const { data: subscriptionData } = useQuery({
+    queryKey: ["subscription"],
+    queryFn: async () => {
+      const token = await getToken();
+      const res = await fetch("https://api.affordify.ai/api/subscription/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return res.json();
+    },
+  });
+
   //Savings dialog
   const [estimatedGoal, setEstimatedGoal] = useState<number>(
     data?.estimatedGoal || 0
@@ -287,7 +300,10 @@ export default function AffordabilityDashboard() {
                   estimatedBudget={data?.affordData?.estimatedBudget}
                 />
 
-                <FinancialInsights />
+                <FinancialInsights 
+                  onUpgrade={() => setIsPlanDialogOpen(true)} 
+                  currentPlan={subscriptionData?.subscription?.tier || "free"}
+                />
               </div>
               {/* col */}
               <div className="flex flex-col gap-4 justify-between">
@@ -301,7 +317,7 @@ export default function AffordabilityDashboard() {
               </div>
             </div>
           </div>
-          <div className="flex items-center justify-center border border-[#1976E1] text-[18px] text-[#1976E1] p-3 rounded-lg cursor-pointer">
+          <div className="flex items-center justify-center border border-[#1976E1] text-[18px] text-[#1976E1] p-3 rounded-lg cursor-pointer" onClick={() => setIsPlanDialogOpen(true)}>
             Click here and get more details
           </div>
           <p className="text-[14px] text-[#2A2A33]">

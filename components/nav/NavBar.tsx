@@ -20,8 +20,8 @@ export default function NavBar() {
 
   return (
     <div className="flex justify-between items-center p-4 h-19 border-b shadow-sm bg-white unset top-0 w-full min-w-[1557px]">
-      <Link href="/">
-        <div className="flex items-center">
+      <Link href="/dashboard">
+        <div className="flex items-center cursor-pointer">
           <Image src="/logo.svg" alt="Affordify AI" width={171} height={44} />
         </div>
       </Link>

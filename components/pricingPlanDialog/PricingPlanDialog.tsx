@@ -7,6 +7,7 @@ import { Card, CardContent } from "../ui/Card";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import { useAuth } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
 const plans = [
   {
@@ -60,6 +61,7 @@ export default function PricingPlansDialog({
   isOpen: boolean;
   onClose: () => void;
 }) {
+  const router = useRouter();
   const { getToken } = useAuth();
   const [activeTier, setActiveTier] = useState<
     "free" | "premium" | "platinum" | null
@@ -141,7 +143,7 @@ export default function PricingPlansDialog({
       );
 
       if (res.ok) {
-        toast.success("Subscription cancelled. You’re on the Free plan now.");
+        toast.success("Subscription cancelled. You're on the Free plan now.");
         setActiveTier("free");
         setSubscriptionId(null);
       } else {
@@ -174,8 +176,13 @@ export default function PricingPlansDialog({
     }
   };
 
+  const handleClose = () => {
+    onClose();
+    router.refresh();
+  };
+
   return (
-    <Dialog isOpen={isOpen} onClose={onClose}>
+    <Dialog isOpen={isOpen} onClose={handleClose}>
       <p className="text-[36px] font-bold mb-4 text-[#2A2A33]">
         Plans & Billing
       </p>

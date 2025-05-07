@@ -1,12 +1,24 @@
 import React from "react";
 
-const FinancialInsights = ({ mask = true }) => {
+interface FinancialInsightsProps {
+  mask?: boolean;
+  onUpgrade: () => void;
+  currentPlan?: "free" | "premium" | "platinum";
+}
+
+const FinancialInsights = ({ 
+  mask = true, 
+  onUpgrade, 
+  currentPlan = "free" 
+}: FinancialInsightsProps) => {
+  const shouldMask = mask && currentPlan === "free";
+
   return (
     <div className="relative flex flex-col justify-between bg-white rounded-lg p-4 shadow-sm w-[530px] h-full overflow-hidden">
       {/* Main Content */}
       <div
         className={`${
-          mask
+          shouldMask
             ? "blur-sm opacity-40 pointer-events-none "
             : "flex flex-col justify-between h-full"
         }`}
@@ -39,7 +51,7 @@ const FinancialInsights = ({ mask = true }) => {
       </div>
 
       {/* Mask Overlay */}
-      {mask && (
+      {shouldMask && (
         <div className="absolute inset-0 flex flex-col justify-center items-center bg-white/0  rounded-lg">
           <div className="mb-6 text-center items-center flex flex-col justify-center">
             <img src="/dashboard/upgrade.png" alt="" />
@@ -49,7 +61,10 @@ const FinancialInsights = ({ mask = true }) => {
               View Financial Insights
             </p>
           </div>
-          <button className="bg-[#1976E1] text-white text-[18px] px-8 py-3 rounded-lg">
+          <button 
+            className="bg-[#1976E1] text-white text-[18px] px-8 py-3 rounded-lg"
+            onClick={onUpgrade}
+          >
             Upgrade
           </button>
         </div>
@@ -59,4 +74,3 @@ const FinancialInsights = ({ mask = true }) => {
 };
 
 export default FinancialInsights;
-5;

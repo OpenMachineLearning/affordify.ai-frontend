@@ -15,6 +15,7 @@ import SavingsGoalTracker from "@/components/dashboard/SavingGoalTracker";
 import FinancialInsights from "@/components/dashboard/FinancialInsights";
 import SpendingsChart from "@/components/dashboard/SpendingsChart";
 import PreferencesCard from "@/components/dashboard/PreferencesCard";
+import PricingPlansDialog from "@/components/pricingPlanDialog/PricingPlanDialog";
 
 interface DialogProps {
   isOpen: boolean;
@@ -23,6 +24,8 @@ interface DialogProps {
 }
 
 export default function AffordabilityDashboard() {
+  const [isPlanDialogOpen, setIsPlanDialogOpen] = useState(false);
+
   const { getToken } = useAuth();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -207,8 +210,13 @@ export default function AffordabilityDashboard() {
             </h1>
             <p className="text-sm text-[#2A2A33]">
               This is your Free Plan dashboard.{" "}
-              <u className="text-[#1976E1] cursor-pointer">Upgrade</u> Upgrade
-              to Premium or Platinum to unlock more features and insights
+              <u
+                className="text-[#1976E1] cursor-pointer"
+                onClick={() => setIsPlanDialogOpen(true)}
+              >
+                Upgrade
+              </u>
+              &nbsp;to Premium or Platinum to unlock more features and insights
             </p>
           </div>
           <div className="flex justify-end gap-4  min-w-[700px]">
@@ -286,7 +294,10 @@ export default function AffordabilityDashboard() {
                 <AffordabilityScoreChart
                   score={parseInt(data?.affordData?.affordabilityScore || 0)}
                 />
-                <SavingsGoalTracker />
+                <SavingsGoalTracker
+                  currentSavings={data?.currentSaving}
+                  estimateGoal={data?.estimatedGoal}
+                />
               </div>
             </div>
           </div>
@@ -300,6 +311,10 @@ export default function AffordabilityDashboard() {
             through our platform
           </p>
         </div>
+        <PricingPlansDialog
+          isOpen={isPlanDialogOpen}
+          onClose={() => setIsPlanDialogOpen(false)}
+        />
       </div>
     </>
   );

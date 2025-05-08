@@ -1,14 +1,24 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useAuth } from "@clerk/nextjs";
 
 type Message = {
   role: "user" | "assistant";
   content: string;
 };
 
+type Topic = {
+  id: number;
+  title: string;
+};
+
 export default function Chat() {
   const formRef = useRef<HTMLFormElement>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [topics, setTopics] = useState<Topic[]>([]);
+  const [currentTopicId, setCurrentTopicId] = useState<number>(-1);
+  const { getToken } = useAuth();
 
   const handleImageClick = () => {
     if (inputValue.trim() && formRef.current) {
@@ -28,13 +38,56 @@ export default function Chat() {
     "Get Property Suggestions for...",
   ]);
 
-  const handleNewChat = () => {
-    // Save current messages to backend here
-    setHistory((prev) => [`Chat on ${new Date().toLocaleString()}`, ...prev]);
-    setMessages([]);
+  // Fetch topics on component mount
+  useEffect(() => {
+    const fetchTopics = async () => {
+      try {
+        const token = await getToken();
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/openai/topics`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Failed to fetch topics');
+        }
+        const data = await response.json();
+        setTopics(data.topicList || []);
+      } catch (error) {
+        console.error('Error fetching topics:', error);
+        setMessages((prev) => [...prev, { 
+          role: "assistant", 
+          content: "Sorry, I couldn't load the chat topics. Please try refreshing the page." 
+        }]);
+      }
+    };
+
+    fetchTopics();
+  }, [getToken]);
+
+  const handleNewChat = async () => {
+    try {
+      const token = await getToken();
+      // Save current messages to backend
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/openai/history`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ topicId: currentTopicId }),
+      });
+
+      setHistory((prev) => [`Chat on ${new Date().toLocaleString()}`, ...prev]);
+      setMessages([]);
+      setCurrentTopicId(-1); // Reset topic ID for new chat
+    } catch (error) {
+      console.error('Error saving chat history:', error);
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent | React.MouseEvent) => {
+  const handleSubmit = async (e: React.FormEvent | React.MouseEvent) => {
     if (e) e.preventDefault();
     const input = (e.currentTarget as HTMLFormElement).elements.namedItem(
       "message"
@@ -42,17 +95,53 @@ export default function Chat() {
     const userInput = input.value.trim();
     if (!userInput) return;
 
+    setIsLoading(true);
     setMessages((prev) => [...prev, { role: "user", content: userInput }]);
     input.value = "";
     setInputValue("");
 
-    // Here you'll call Strapi endpoint (we'll wire it later)
+    try {
+      const token = await getToken();
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/openai/sendmsg`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          userMessage: userInput,
+          topicId: currentTopicId,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to send message');
+      }
+      
+      const data = await response.json();
+      if (data.aiResponse) {
+        setMessages((prev) => [...prev, { role: "assistant", content: data.aiResponse }]);
+        // If this was a new chat (topicId = -1), update the current topic ID
+        if (currentTopicId === -1 && data.topicId) {
+          setCurrentTopicId(data.topicId);
+        }
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+      setMessages((prev) => [...prev, { 
+        role: "assistant", 
+        content: "Sorry, I encountered an error. Please try again." 
+      }]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className="flex h-[830px] min-h-full space-x-3   ">
+    <div className="flex h-[830px] min-h-full space-x-3">
       {/* Sidebar */}
-      <div className="w-64  flex flex-col rounded-xl bg-white">
+      <div className="w-64 flex flex-col rounded-xl bg-white">
         <div className="flex items-center justify-between px-4 py-4">
           <h2 className="text-xl text-[#2A2A33] font-semibold">History</h2>
           <button
@@ -89,11 +178,16 @@ export default function Chat() {
               {msg.content}
             </div>
           ))}
+          {isLoading && (
+            <div className="bg-gray-100 self-start px-4 py-2 rounded-2xl">
+              Thinking...
+            </div>
+          )}
         </div>
 
         {/* Chat Input */}
         <div className="flex justify-center items-center">
-          <form ref={formRef} className="p-4 w-5/8 " onSubmit={handleSubmit}>
+          <form ref={formRef} className="p-4 w-5/8" onSubmit={handleSubmit}>
             <div className="relative">
               <input
                 type="text"
@@ -103,17 +197,18 @@ export default function Chat() {
                 placeholder="Ask Anything"
                 className="w-full h-[63px] text-[14px] text-[#2A2A33] rounded-2xl bg-[#F5F5F5] px-6 py-2 pr-10 text-sm shadow-sm focus:outline-none placeholder:text-gray-500"
                 autoComplete="off"
+                disabled={isLoading}
               />
 
               <img
                 src={
-                  inputValue.trim()
-                    ? "/dashboard/chat-start.png" // active icon
-                    : "/dashboard/chat-pre-button.png" // default icon
+                  inputValue.trim() && !isLoading
+                    ? "/dashboard/chat-start.png"
+                    : "/dashboard/chat-pre-button.png"
                 }
                 alt="Send"
                 onClick={handleImageClick}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-blue-600"
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-blue-600 cursor-pointer"
               />
             </div>
             <p className="text-center text-[14px] text-[#2A2A33] mt-5">

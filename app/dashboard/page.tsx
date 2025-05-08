@@ -187,6 +187,8 @@ export default function AffordabilityDashboard() {
   };
   const [showDropdown, setShowDropdown] = useState(false);
 
+  const router = useRouter();
+
   return (
     <>
       {showWelcome && (
@@ -233,7 +235,10 @@ export default function AffordabilityDashboard() {
             </p>
           </div>
           <div className="flex justify-end gap-4  min-w-[700px]">
-            <button className="bg-[#1976E1] border border-[#1976E1] text-white font-semibold  px-6 py-3 rounded-xl text-[18px]  cursor-pointer">
+            <button
+              onClick={() => router.push("/affordability-scoring")}
+              className="bg-[#1976E1] border border-[#1976E1] text-white font-semibold px-6 py-3 rounded-xl text-[18px] cursor-pointer"
+            >
               Update Dashboard
             </button>
             <button className="bg-[#1976E1] border border-[#1976E1] text-white  font-semibold px-6 py-3 rounded-xl text-[18px] cursor-pointer">
@@ -300,8 +305,8 @@ export default function AffordabilityDashboard() {
                   estimatedBudget={data?.affordData?.estimatedBudget}
                 />
 
-                <FinancialInsights 
-                  onUpgrade={() => setIsPlanDialogOpen(true)} 
+                <FinancialInsights
+                  onUpgrade={() => setIsPlanDialogOpen(true)}
                   currentPlan={subscriptionData?.subscription?.tier || "free"}
                 />
               </div>
@@ -317,7 +322,10 @@ export default function AffordabilityDashboard() {
               </div>
             </div>
           </div>
-          <div className="flex items-center justify-center border border-[#1976E1] text-[18px] text-[#1976E1] p-3 rounded-lg cursor-pointer" onClick={() => setIsPlanDialogOpen(true)}>
+          <div
+            className="flex items-center justify-center border border-[#1976E1] text-[18px] text-[#1976E1] p-3 rounded-lg cursor-pointer"
+            onClick={() => setIsPlanDialogOpen(true)}
+          >
             Click here and get more details
           </div>
           <p className="text-[14px] text-[#2A2A33]">

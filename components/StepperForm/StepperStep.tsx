@@ -42,17 +42,17 @@ export default function StepperStep({
   const [selectedStage, setSelectedStage] = useState<string | null>(null);
 
   const buyingStages = [
-    "I've signed a purchase agreement",
-    "I'm making offers",
-    "I'm attending open houses",
-    "I'm still researching",
+    "I’ve signed a purchase agreement",
+    "I’m making offers",
+    "I’m attending open houses",
+    "I’m still researching",
   ];
 
   const rentingStages = [
-    "I've signed a lease agreement",
-    "I'm applying for rentals",
-    "I'm touring rental properties",
-    "I'm just browsing",
+    "I’ve signed a lease agreement",
+    "I’m applying for rentals",
+    "I’m touring rental properties",
+    "I’m just browsing",
   ];
 
   const options = isOwner ? buyingStages : rentingStages;
@@ -264,13 +264,7 @@ export default function StepperStep({
               ))}
             </div>
           </div>
-          <div className="flex justify-between mt-55">
-            <button
-              onClick={prevStep}
-              className="flex items-center justify-center mt-4 px-8 py-3 w-38 rounded-lg text-[18px] border border-[#2286EA] text-[#2286EA]"
-            >
-              Back
-            </button>
+          <div className="flex justify-end mt-55">
             <button
               onClick={nextStep}
               disabled={!selectedStage}
@@ -308,8 +302,8 @@ export default function StepperStep({
             <div className="mb-6">
               <label className="text-sm block mb-2 text-[#2A2A33]">
                 {isOwner
-                  ? "Property Price You're Considering"
-                  : "Property Monthly Rent Price You're Considering"}
+                  ? "Property Price You’re Considering"
+                  : "Property Monthly Rent Price You’re Considering"}
               </label>
               <input
                 type="text"
@@ -448,16 +442,10 @@ export default function StepperStep({
               </div>
             </div>
           </div>
-          <div className="flex justify-between">
-            <button
-              onClick={prevStep}
-              className="flex items-center justify-center mt-4 px-8 py-3 w-38 rounded-lg text-[18px] border border-[#2286EA] text-[#2286EA]"
-            >
-              Back
-            </button>
+          <div className="flex justify-end">
             <button
               onClick={nextStep}
-              className="flex items-center justify-center mt-4 px-8 py-3 w-38 rounded-lg text-[18px] bg-[#2286EA] text-white"
+              className="flex items-center justify-center mt-4 px-8 py-3 w-38  bg-[#2286EA] text-white rounded-md"
             >
               Next
             </button>
@@ -533,7 +521,7 @@ export default function StepperStep({
                 <label className="flex items-start mb-2 text-[#2A2A33] text-sm">
                   <input type="checkbox" className="mr-2  w-[36px] h-[20px]" />{" "}
                   I authorize affordify.ai to securely share limited, anonymized
-                  usage data with trusted partners to improve services and
+                  usage data with trusted partners to improve services and
                   deliver relevant content
                 </label>
               </div>
@@ -553,7 +541,7 @@ export default function StepperStep({
               <img src="./visa_ico.png" alt="" className="w-18 ml-2" />
             </button>
             <button
-              onClick={prevStep}
+              onClick={nextStep}
               className="mt-2 px-4 py-2 w-full h-13 bg-white text-[#2286EA] border-1 border-[#2286EA] rounded-lg"
             >
               Back
@@ -585,7 +573,7 @@ export default function StepperStep({
             </p>
             <ul className=" text-[#2A2A33] w-80 text-[14px] mb-3 list-disc ml-5">
               <li>
-                You'll be asked to connect your bank via Visa Open Banking.
+                You’ll be asked to connect your bank via Visa Open Banking.
               </li>
               <li>
                 We only access read-only information like income and expenses.
@@ -597,9 +585,9 @@ export default function StepperStep({
               What do I need to do?{" "}
             </p>
             <p className=" text-[#2A2A33] w-83 text-[14px] mb-3">
-              Simply tap the 'Connect' button below, and permission will be
+              Simply tap the ‘Connect’ button below, and permission will be
               requested to access the data needed to verify your details. You
-              will be redirected to your bank's secure portal to log in to your
+              will be redirected to your bank’s secure portal to log in to your
               online banking account as usual. Once completed, you will be
               brought back here to continue
             </p>
